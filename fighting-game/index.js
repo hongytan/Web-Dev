@@ -2,6 +2,7 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 const GRAVITY = 0.5
 const X_SPEED = 3
+let TIMER = 60
 
 canvas.width = 1024
 canvas.height = 576
@@ -42,6 +43,7 @@ class Sprite {
         this.color = color
         this.isAttacking
         this.offset = offset
+        this.health = 100
     }
 
     draw() {
@@ -88,6 +90,26 @@ const enemy = new Sprite({
 player.draw()
 enemy.draw()
 
+function decrease_timer() { 
+    if (TIMER >= 0) {
+        setTimeout(decrease_timer, 1000)
+        document.querySelector("#timer").innerHTML = TIMER
+        TIMER--
+    }
+
+    if (TIMER === -1) {
+        if (player.health === enemy.health) {
+            document.querySelector("#game_result").innerHTML = "TIE"
+        }
+        else if (player.health > enemy.health) {
+            document.querySelector("#game_result").innerHTML = "Player Wins"
+        }
+        else {
+            document.querySelector("#game_result").innerHTML = "Enemy Wins"
+        }
+    }
+}
+
 function animate() {
     window.requestAnimationFrame(animate) // Loop animate function
     c.fillStyle = 'black'
@@ -112,7 +134,8 @@ function animate() {
         player.position.y <= enemy.position.y + enemy.height &&
         player.isAttacking) {
             player.isAttacking = false
-            console.log('yup')
+            enemy.health -= 20
+            document.querySelector('#enemyHealth').style.width = enemy.health + "%"
     }
 
     // Enemy
@@ -129,11 +152,21 @@ function animate() {
         enemy.position.y <= player.position.y + player.height &&
         enemy.isAttacking) {
             enemy.isAttacking = false
-            console.log('yup2')
+            player.health -= 20
+            document.querySelector("#playerHealth").style.width = player.health + "%"
+    }
+
+    // end game if someone dies
+    if (player.health <= 0) {
+        document.querySelector("#game_result").innerHTML = "Enemy Wins"
+    }
+    if (enemy.health <= 0) {
+        document.querySelector("#game_result").innerHTML = "Player Wins"
     }
 
 }
 
+decrease_timer()
 animate()
 
 window.addEventListener('keydown', (event) => {

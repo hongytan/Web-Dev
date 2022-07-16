@@ -1,13 +1,26 @@
 <!DOCTYPE html>
-
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-    <div style="position: relative;">
-        <div style="position: absolute; display: flex; width: 100%;">
-            <div style="background-color: yellow; height: 30px; width: 100%;"></div>
-            <div style="background-color: red; height: 100px; width: 100px; flex-shrink: 0;"></div>
-            <div style="background-color: yellow; height: 30px; width: 100%;"></div>
-        </div>
+    <div id="canvas">
+        <div id="healthBars">
 
+            <!-- Player Health -->
+            <div class="parentHealth">
+                <div class="health"></div>
+                <div id="playerHealth"></div>
+            </div>
+
+            <div id="timer"> 10 </div>
+
+            <!-- Enemy Health -->
+            <div class="parentHealth">
+                <div class="health"></div>
+                <div id="enemyHealth"></div>
+            </div>
+        </div>
+        <div id="game_result"></div>
         <canvas></canvas>
     </div>
 
